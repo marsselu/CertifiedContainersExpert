@@ -1,2 +1,17 @@
 *vscode*
+*yaml.*
+*.log
+*.swp
+*.tmp
+*.bak
+*.old
+*.orig
+*.rej
+*.DS_Store
+*.pdf
+*.jpg
+*.png
+*.zip
+*.webp
+*.md.*
 

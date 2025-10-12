@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: girus
+    service: webservice
+  name: girus
+spec:
+  containers:
+  - image: nginx
+    name: girus
+    resources: {}
+  - image: busybox
+    name: busybox
+    command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 3600'] #necessario porque a imagem busybox termina imediatamente apos iniciar
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
