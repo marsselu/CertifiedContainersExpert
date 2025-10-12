@@ -9,18 +9,18 @@ spec:
   selector:
     matchLabels:
       app: nginx-app
-  template:
+  template: # this is the pod template
     metadata:
       labels:
         app: nginx-app
-    spec:
+    spec: # pod spec (containers, volumes, etc
       containers:
       - name: nginx
         image: nginx:1.19.2
         resources:
           limits:
-            cpu: 0.5
+            cpu: "0.5"
             memory: 256Mi
           requests:
-            cpu: 0.3
+            cpu: "0.3"
             memory: 126Mi
