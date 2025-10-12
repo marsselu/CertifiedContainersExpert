@@ -10,17 +10,14 @@ spec:
     matchLabels:
       app: nginx-deployment
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 2
+    type: Recreate
   template:
     metadata:
       labels:
         app: nginx-deployment
     spec:
       containers:
-      - image: nginx:1.15.0
+      - image: nginx:1.17.0
         name: nginx
         resources:
           limits:
