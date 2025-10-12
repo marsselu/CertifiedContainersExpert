@@ -4,28 +4,27 @@ metadata:
   labels:
     app: nginx-deployment
   name: nginx-deployment
+  namespace: giropops
 spec:
   replicas: 10
   selector:
     matchLabels:
       app: nginx-deployment
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 2
-  template:
+  strategy: {}
+  template: # template describes the pods that will be created
     metadata:
       labels:
         app: nginx-deployment
     spec:
       containers:
-      - image: nginx:1.15.0
-        name: nginx
+      - name: nginx
+        image: nginx:1.16.0
         resources:
           limits:
-            cpu: "0.5"
-            memory: 256Mi
-          requests:
-            cpu: "0.25"
             memory: 128Mi
+            cpu: "300m"
+          requests:
+            memory: 64Mi
+            cpu: "100m"
+        ports:
+        - containerPort: 80
