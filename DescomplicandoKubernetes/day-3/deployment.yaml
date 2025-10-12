@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+  namespace: giropops
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy: {}
+  template: # template describes the pods that will be created
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.16.0
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: "300m"
+          requests:
+            memory: 64Mi
+            cpu: "100m"
+        ports:
+        - containerPort: 80
