@@ -10,7 +10,13 @@ spec:
     name: giropops
     ports:
     - containerPort: 80
-    resources: {}
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "250m"
+        memory: "256Mi"
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
