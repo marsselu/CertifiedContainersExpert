@@ -16,14 +16,14 @@ spec:
         app: nginx-deployment
     spec:
       containers:
-      - image: nginx:1.19.1
+      - image: nginx:1.20.1
         name: nginx
         resources:
           limits:
             cpu: "0.5"
-            memory: 256Mi
+            memory: "256Mi"
           requests:
-            cpu: 0.25
+            cpu: "0.25"
             memory: 128Mi
         livenessProbe:
           exec:

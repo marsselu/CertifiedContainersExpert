@@ -121,7 +121,7 @@ nginx-deployment   1/1     1            1           7s
 
 &nbsp;
 
-Simples, eu nós já sabiamos! Jeferson, eu quero saber sobre o `ReplicaSet`!
+Simples, nós já sabiamos! Jeferson, eu quero saber sobre o `ReplicaSet`!
 
 Calma, pois o nosso querido `Deployment` já criou o `ReplicaSet` para nós.
 
