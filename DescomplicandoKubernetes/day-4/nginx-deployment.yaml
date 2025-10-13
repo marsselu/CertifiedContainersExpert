@@ -25,7 +25,7 @@ spec:
           requests:
             cpu: "0.25"
             memory: 128Mi
-        livenessProbe:
+        livenessProbe: # Verifica se o container está vivo e reinicia se necessário
           exec:
             command:
             - curl
@@ -36,7 +36,7 @@ spec:
           successThreshold: 1
           failureThreshold: 2
           timeoutSeconds: 5
-        readinessProbe:
+        readinessProbe: # Verifica se o container está pronto para receber tráfego e remove da rotação se não estiver
           httpGet:
             path: /
             port: 80
@@ -45,11 +45,11 @@ spec:
           successThreshold: 1
           failureThreshold: 2
           timeoutSeconds: 5
-        startupProbe:
+        startupProbe: # Verifica se o container iniciou corretamente, útil para aplicações que demoram a iniciar
           tcpSocket:
             port: 80
           initialDelaySeconds: 10
-          periodSeconds: 10
+          periodSeconds: 10 # Tempo entre as verificações
           successThreshold: 1
-          failureThreshold: 2
+          failureThreshold: 2 # Verifica se o container iniciou corretamente, útil para aplicações que demoram a iniciar
           timeoutSeconds: 5
