@@ -13,10 +13,10 @@ spec:
       labels:
         app: node-exporter-daemonset
     spec:
-      hostNetwork: true
+      hostNetwork: true # **MODERAÇÃO** - Enable host networking to access host metrics
       containers:
       - name: node-exporter
-        image: prom/node-exporter:v1.4.1
+        image: prom/node-exporter:v1.4.1 # usa a imagem oficial do prometheus/node-exporter
         ports:
         - containerPort: 9100
           hostPort: 9100
