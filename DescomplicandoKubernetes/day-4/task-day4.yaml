@@ -1,0 +1,150 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: task-day4-deployment
+  name: task-day4-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: task-day4-deployment
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: task-day4-deployment
+    spec:
+      containers:
+      - image: cgr.dev/chainguard/wolfi-base:latest
+        name: wolfi-task-day4
+        command: ["tail", "-f", "/dev/null"]
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "128Mi"
+          requests:
+            cpu: "0.25"
+            memory: 64Mi
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "true"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "true"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 5
+        startupProbe:
+          exec:
+            command: ["sh", "-c", "true"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 5
+
+      - image: cgr.dev/chainguard/cosign:latest
+        name: cosign-task-day4
+        command: ["tail", "-f", "/dev/null"]
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "128Mi"
+          requests:
+            cpu: "0.25"
+            memory: 64Mi
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "cosign version > /dev/null 2>&1"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 2
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "cosign help > /dev/null 2>&1"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 2
+          timeoutSeconds: 5
+        startupProbe:
+          exec:
+            command: ["sh", "-c", "which cosign"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 2
+          timeoutSeconds: 5
+
+      - image: nginx
+        name: nginx-task-day4
+        ports: # Expondo a porta 80 do container para o host e probes funcionarem corretamente  
+          - containerPort: 80
+        command: ["nginx", "-g", "daemon off;"]
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "128Mi"
+          requests:
+            cpu: "0.25"
+            memory: 64Mi 
+        livenessProbe: # Verifica se o container está vivo e reinicia se necessário
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 2
+          timeoutSeconds: 5 
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 2
+          timeoutSeconds: 5
+        startupProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 2
+          timeoutSeconds: 5
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-day4-service
+  labels:
+    app: task-day4-deployment
+spec:
+  selector:
+    app: task-day4-deployment
+  ports:
+    - protocol: TCP
+      port: 80          # Porta interna do cluster
+      targetPort: 80    # Porta do container nginx
+  type: ClusterIP       # altere para NodePort se quiser expor externamente
+  # type: NodePort
+  # nodePort: 30080     # exemplo de porta para acesso externo
