@@ -561,13 +561,39 @@ k8s-03   NotReady    <none>          3m   v1.26.3
 
 Agora você já consegue ver que os dois novos nodes foram adicionados ao cluster, porém ainda estão com o status `Not Ready`, pois ainda não instalamos o nosso plugin de rede para que seja possível a comunicação entre os pods. Vamos resolver isso agora. :)
 
-##### Instalando o Weave Net
+##### Instalando o Calico
 
-Agora que o cluster está inicializado, vamos instalar o Weave Net:
+Agora que o cluster está inicializado, vamos instalar o Calico:
 
 ```
-$ kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+$ curl -O -L https://docs.projectcalico.org/manifests/calico.yaml
 ```
+
+&nbsp;
+
+Altere o calico.yaml para o range de ips passado no "kubeacm init".
+Localize a seção calico-config ConfigMap (geralmente sob kube-system) e ajuste:
+
+```
+  - name: CALICO_IPV4POOL_CIDR
+    value: "10.10.0.0/16"
+```
+&nbsp;
+
+Aplique o Calico:
+
+```
+  kubectl apply -f calico.yaml
+```
+&nbsp;
+
+Confirme a configuração do Calico checando o CIDR e o IPPool:
+
+```
+kubectl get crd | grep ippools
+calicoctl get ippool -o wide --allow-version-mismatch
+```
+Você deverá ver uma saída informando "default-ipv4-ippool" com CIDR "10.10.0.0/16"
 
 &nbsp;
 
@@ -593,7 +619,10 @@ k8s-03   Ready    <none>          6m   v1.26.3
 
 &nbsp;
 
-O Weave Net é um plugin de rede que permite que os pods se comuniquem entre si. Ele também permite que os pods se comuniquem com o mundo externo, como outros clusters ou a Internet. 
+##### O que é o CALICO?
+
+O plugin Calico é uma solução de rede e segurança de código aberto para plataformas como o Kubernetes, que fornece conectividade entre contêineres e aplica políticas de segurança. Ele gerencia endereços IP para pods, permite a comunicação de forma segura e escalável entre nós do cluster, e oferece controle granular sobre o tráfego de rede.
+
 Quando o Kubernetes é instalado, ele resolve vários problemas por si só, porém quando o assunto é a comunicação entre os pods, ele não resolve. Por isso, precisamos instalar um plugin de rede para resolver esse problema.
 
 ##### O que é o CNI?
@@ -620,13 +649,13 @@ Agora, qual você deverá escolher? A resposta é simples: o que melhor se adequ
 
 Minha dica, procure não ficar inventando muita moda, tenta utilizar os que são já validados e bem aceitos pela comunidade, como o Weave Net, Calico, Flannel, etc. 
 
-O meu preferido é o `Weave Net` pela simplicidade de instalação e os recursos oferecidos.
+O meu preferido é o `Weave Net` pela simplicidade de instalação e os recursos oferecidos, mas infelizmente o projeto foi arquivado.
 
-Um cara que eu tenho gostado bastante é o `Cilium`, ele é bem completo e tem uma comunidade bem ativa, além de utilizar o BPF, que é um assunto super quente no mundo Kubernetes!
+Um cara que eu tenho gostado bastante é o `Cilium`, ele é bem completo e tem uma comunidade bem ativa, além de utilizar o BPF, que é um assunto super quente no mundo Kubernetes! 
 
 &nbsp;
 
-Pronto, já temos o nosso cluster inicializado e o Weave Net instalado. Agora, vamos criar um Deployment para testar a comunicação entre os Pods.
+Pronto, já temos o nosso cluster inicializado e o Calico instalado. Agora, vamos criar um Deployment para testar a comunicação entre os Pods.
 
 ```bash
 kubectl create deployment nginx --image=nginx --replicas 3
