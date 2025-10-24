@@ -561,6 +561,7 @@ k8s-03   NotReady    <none>          3m   v1.26.3
 
 Agora você já consegue ver que os dois novos nodes foram adicionados ao cluster, porém ainda estão com o status `Not Ready`, pois ainda não instalamos o nosso plugin de rede para que seja possível a comunicação entre os pods. Vamos resolver isso agora. :)
 
+
 ##### Instalando o Calico
 
 Agora que o cluster está inicializado, vamos instalar o Calico:
@@ -571,7 +572,7 @@ $ curl -O -L https://docs.projectcalico.org/manifests/calico.yaml
 
 &nbsp;
 
-Altere o calico.yaml para o range de ips passado no "kubeacm init".
+Altere o calico.yaml para o range de ips passado no "kubeadm init".
 Localize a seção calico-config ConfigMap (geralmente sob kube-system) e ajuste:
 
 ```
