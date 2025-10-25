@@ -206,7 +206,7 @@ Para ver a lista completa de provisionadores, consulte a documentação do Kuber
 
 &nbsp;
 
-Vamos criar um novo `Storage Class` para o nosso cluster Kubernetes no kind, com o nome "local-storage", e vamos definir o provisionador como "kubernetes.io/host-path", que cria volumes PersistentVolume no diretório do host.
+Vamos criar um `Storage Class` padrão (caso ainda não tenha) para o nosso cluster Kubernetes no kind.
 
 ```bash
 apiVersion: storage.k8s.io/v1
@@ -219,7 +219,6 @@ volumeBindingMode: WaitForFirstConsumer
 ```
 
 &nbsp;
-
 
 Para você ver os `Storage Classes` disponíveis no seu cluster, basta executar o seguinte comando:
 
@@ -275,16 +274,28 @@ Uma coisa que podemos ver é que o nosso `Storage Class` está com a opção `Is
 
 &nbsp;
 
-
+Vamos criar um novo `Storage Class` para o nosso cluster Kubernetes no kind, com o nome "local-storage", e vamos definir o provisionador como "kubernetes.io/host-path", que cria volumes PersistentVolume no diretório do host. Crie um arquivo `storageclass-local-path.yaml` e adicione o seguinte conteúdo:
 
 ```bash
-kubectl apply -f storageclass.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/host-path
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
 ```
 
 &nbsp;
 
 ```bash
-storageclass.storage.k8s.io/giropops created
+kubectl apply -f storageclass-local-path.yaml
+```
+
+&nbsp;
+
+```bash
+local-path.storage.k8s.io/giropops created
 ```
 
 &nbsp;
@@ -294,17 +305,17 @@ Pronto! Agora nós temos um novo `Storage Class` criado no nosso cluster Kuberne
 Para saber mais detalhes sobre o `Storage Class` que criamos, execute o seguinte comando:
 
 ```bash
-kubectl describe storageclass giropops
+kubectl describe storageclass local-storage
 ```
 
 &nbsp;
 
 ```bash
-Name:            giropops
+Name:            local-storage
 IsDefaultClass:  No
-Annotations:     kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"giropops"},"provisioner":"kubernetes.io/no-provisioner","reclaimPolicy":"Retain","volumeBindingMode":"WaitForFirstConsumer"}
+Annotations:     kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"local-storage"},"provisioner":"kubernetes.io/host-path","reclaimPolicy":"Retain","volumeBindingMode":"WaitForFirstConsumer"}
 
-Provisioner:           kubernetes.io/no-provisioner
+Provisioner:           kubernetes.io/host-path
 Parameters:            <none>
 AllowVolumeExpansion:  <unset>
 MountOptions:          <none>
@@ -315,7 +326,7 @@ Events:                <none>
 
 &nbsp;
 
-Lembrando que criamos esse `Storage Class` com o provisionador "kubernetes.io/no-provisioner", mas você pode criar um `Storage Class` com qualquer provisionador que você quiser, como o "kubernetes.io/aws-ebs", que cria volumes PersistentVolume no EBS da AWS.
+Lembrando que criamos esse `Storage Class` com o provisionador "kubernetes.io/host-path", mas você pode criar um `Storage Class` com qualquer provisionador que você quiser, como o "kubernetes.io/aws-ebs", que cria volumes PersistentVolume no EBS da AWS.
 
 &nbsp;
 
