@@ -288,18 +288,15 @@ volumeBindingMode: WaitForFirstConsumer
 
 &nbsp;
 
-Aplique o deploy criado:
-
 ```bash
 kubectl apply -f storageclass-local-path.yaml
 ```
 
 &nbsp;
 
-Confira a saída :
 
 ```bash
-local-path.storage.k8s.io/giropops created
+local-path.storage.k8s.io/local-storage created
 ```
 
 &nbsp;
@@ -331,6 +328,41 @@ Events:                <none>
 &nbsp;
 
 Lembrando que criamos esse `Storage Class` com o provisionador "kubernetes.io/host-path", mas você pode criar um `Storage Class` com qualquer provisionador que você quiser, como o "kubernetes.io/aws-ebs", que cria volumes PersistentVolume no EBS da AWS.
+
+&nbsp;
+
+Vamos criar um novo `Storage Class` para o nosso cluster Kubernetes no kind, com o nome "giropops", e vamos definir o provisionador como "kubernetes.io/no-provisioner". Crie um arquivo de nome `storage-class-giropops.yaml` e adicione o seguinte:
+
+&nbsp;
+
+```bash
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: giropops
+provisioner: kubernetes.io/no-provisioner
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+```
+&nbsp;
+
+```bash
+kubectl apply -f giropops.yaml
+```
+
+&nbsp;
+
+
+```bash
+local-path.storage.k8s.io/giropops created
+```
+
+Pronto! Agora nós temos um novo `Storage Class` criado no nosso cluster Kubernetes no kind, com o nome "giropops", e com o provisionador "kubernetes.io/no-provisioner", que cria volumes PersistentVolume no diretório do host.
+
+Para saber mais detalhes sobre o Storage Class que criamos, execute o seguinte comando:
+
+
+
 
 &nbsp;
 
