@@ -206,6 +206,21 @@ Para ver a lista completa de provisionadores, consulte a documentação do Kuber
 
 &nbsp;
 
+Vamos criar um novo `Storage Class` para o nosso cluster Kubernetes no kind, com o nome "local-storage", e vamos definir o provisionador como "kubernetes.io/host-path", que cria volumes PersistentVolume no diretório do host.
+
+```bash
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: giropops
+provisioner: kubernetes.io/no-provisioner
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+```
+
+&nbsp;
+
+
 Para você ver os `Storage Classes` disponíveis no seu cluster, basta executar o seguinte comando:
 
 ```bash
@@ -260,19 +275,7 @@ Uma coisa que podemos ver é que o nosso `Storage Class` está com a opção `Is
 
 &nbsp;
 
-Vamos criar um novo `Storage Class` para o nosso cluster Kubernetes no kind, com o nome "local-storage", e vamos definir o provisionador como "kubernetes.io/host-path", que cria volumes PersistentVolume no diretório do host.
 
-```bash
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: giropops
-provisioner: kubernetes.io/no-provisioner
-reclaimPolicy: Retain
-volumeBindingMode: WaitForFirstConsumer
-```
-
-&nbsp;
 
 ```bash
 kubectl apply -f storageclass.yaml
