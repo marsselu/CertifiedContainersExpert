@@ -237,7 +237,7 @@ standard (default)   rancher.io/local-path   Delete          WaitForFirstConsume
 
 Como você pode ver, no Kind, o provisionador padrão é o `rancher.io/local-path`, que cria volumes PersistentVolume no diretório do host.
 
-Já no EKS, o provisionador padrão é o `kubernetes.io/aws-ebs`, que cria volumes PersistentVolume no EBS da AWS.
+Já no EKS, o provisionador padrão é o `kubernetes.io/aws-ebs`, que cria volumes PersistentVolume no EBS da AWS. A saída seria parecida com essa:
 
 ```bash
 NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
@@ -274,7 +274,7 @@ Uma coisa que podemos ver é que o nosso `Storage Class` está com a opção `Is
 
 &nbsp;
 
-Vamos criar um novo `Storage Class` para o nosso cluster Kubernetes no kind, com o nome "local-storage", e vamos definir o provisionador como "kubernetes.io/host-path", que cria volumes PersistentVolume no diretório do host. Crie um arquivo `storageclass-local-path.yaml` e adicione o seguinte conteúdo:
+Agora vamos criar um novo `Storage Class` para o nosso cluster Kubernetes no kind, com o nome "local-storage", e vamos definir o provisionador como "kubernetes.io/host-path", que cria volumes PersistentVolume no diretório do host. Crie um arquivo `storageclass-local-path.yaml` e adicione o seguinte conteúdo:
 
 ```bash
 apiVersion: storage.k8s.io/v1
@@ -288,11 +288,15 @@ volumeBindingMode: WaitForFirstConsumer
 
 &nbsp;
 
+Aplique o deploy criado:
+
 ```bash
 kubectl apply -f storageclass-local-path.yaml
 ```
 
 &nbsp;
+
+Confira a saída :
 
 ```bash
 local-path.storage.k8s.io/giropops created
@@ -300,7 +304,7 @@ local-path.storage.k8s.io/giropops created
 
 &nbsp;
 
-Pronto! Agora nós temos um novo `Storage Class` criado no nosso cluster Kubernetes no kind, com o nome "giropops", e com o provisionador "kubernetes.io/no-provisioner", que cria volumes PersistentVolume no diretório do host.
+Pronto! Agora nós temos um novo `Storage Class` criado no nosso cluster Kubernetes no kind, com o nome "local-storage", e com o provisionador "kubernetes.io/host-path", que cria volumes PersistentVolume no diretório do host.
 
 Para saber mais detalhes sobre o `Storage Class` que criamos, execute o seguinte comando:
 
