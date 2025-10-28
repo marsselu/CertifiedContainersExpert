@@ -219,6 +219,8 @@ Para verificar se os `Pods` foram criados, podemos utilizar o comando:
 
 ```bash
 kubectl get pods
+```
+```bash
 NAME      READY   STATUS    RESTARTS   AGE
 nginx-0   1/1     Running   0          24s
 nginx-1   1/1     Running   0          14s
