@@ -159,6 +159,8 @@ Para verificar se o `StatefulSet` foi criado, podemos utilizar o comando:
 
 ```bash
 kubectl get statefulset
+```
+```bash
 NAME    READY   AGE
 nginx   3/3     2m38s
 ```
