@@ -90,7 +90,7 @@ No Kubernetes, um serviço é uma abstração que define um conjunto lógico de 
 
 Agora, o que isso tem a ver com os `StatefulSets`?
 
-Os `StatefulSets` e os `Headless Services` geralmente trabalham juntos no gerenciamento de aplicações stateful. O `Headless Service` é responsável por permitir a comunicação de rede entre os Pods em um `StatefulSet`, enquanto o ` gerencia o deployment e o scaling desses Pods.
+Os `StatefulSets` e os `Headless Services` geralmente trabalham juntos no gerenciamento de aplicações stateful. O `Headless Service` é responsável por permitir a comunicação de rede entre os Pods em um `StatefulSet`, enquanto o `Deployment(confirmar se está correto)` gerencia o deployment e o scaling desses Pods.
 
 Aqui está como eles funcionam juntos:
 
