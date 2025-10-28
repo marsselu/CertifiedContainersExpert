@@ -171,7 +171,8 @@ Caso queira ver com mais detalhes, podemos utilizar o comando:
 
 ```bash
 kubectl describe statefulset nginx
-
+```
+```bash
 Name:               nginx
 Namespace:          default
 CreationTimestamp:  Thu, 18 May 2023 23:44:45 +0200
