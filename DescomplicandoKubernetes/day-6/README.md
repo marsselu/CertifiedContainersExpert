@@ -816,6 +816,9 @@ pod/nginx-pod created
 &nbsp;
 
 Bora ver se está tudo certo com o nosso Pod.
+```bash
+kubectl get pod nginx-pod
+```
 
 ```bash
 NAME        READY   STATUS    RESTARTS   AGE

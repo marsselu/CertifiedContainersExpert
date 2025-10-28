@@ -3,7 +3,7 @@ kind: PersistentVolume # Tipo de objeto que estamos criando, no caso um Persiste
 metadata: # Informações sobre o objeto
   name: meu-pv # Nome do nosso PV
   labels:
-    storage: lento # Rótulo para identificar o PV
+    storage: local # Rótulo para identificar o PV
 spec: # Especificações do nosso PV
   capacity: # Capacidade do PV
     storage: 1Gi # 1 Gigabyte de armazenamento
@@ -12,4 +12,4 @@ spec: # Especificações do nosso PV
   persistentVolumeReclaimPolicy: Retain # Política de reivindicação do PV, ou seja, o PV não será excluído quando o PVC for excluído
   hostPath: # Tipo de armazenamento que vamos utilizar, no caso um hostPath
     path: "/mnt/data" # Caminho do hostPath, do nosso nó, onde o PV será criado
-  storageClassName: giropops # Nome da classe de armazenamento que será utilizada
+  storageClassName: standard # Nome da classe de armazenamento que será utilizada
