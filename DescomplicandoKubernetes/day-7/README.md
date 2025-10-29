@@ -261,7 +261,6 @@ Para verificar se o `Headless Service` foi criado, podemos utilizar o comando:
 
 ```bash
 kubectl get service
-
 ```
 
 &nbsp;
@@ -277,26 +276,41 @@ kubectl describe service nginx
 Agora que já temos o `StatefulSet` e o `Headless Service` criados, podemos acessar cada `Pod` individualmente, para isso, vamos utilizar o comando:
 
 ```bash
-kubectl run -it --rm debug --image=busybox --restart=Never -- sh
+kubectl exec -it nginx-2 -- bash
 ```
 
 &nbsp;
+
+&nbsp;
+
+Uma vez dentro do container `nginx-2`, vamos utilizar o comando `nslookup`. Para isso instale o `dnsutils` para obter o pacote:
+```bash
+apt update && apt install dnsutils
+```
 
 Agora vamos utilizar o comando `nslookup` para verificar o endereço IP de cada `Pod`, para isso, vamos utilizar o comando:
 
 ```bash
-nslookup nginx-0.nginx
+nslookup nginx-0.nginx #depois, altere o numero 0 para 1 e confirme a saída
 ```
 
 &nbsp;
 
-Agora vamos acessar o `Pod` utilizando o endereço IP, para isso, vamos utilizar o comando:
+O resultado deverá ser algo parecido com isso:
 
 ```bash
-wget -O- http://<endereço-ip-do-pod>
+root@nginx-2:/# nslookup nginx-0.nginx
+;; Got recursion not available from 10.96.0.10
+Server:         10.96.0.10
+Address:        10.96.0.10#53
+
+Name:   nginx-0.nginx.default.svc.cluster.local
+Address: 10.244.2.3
+;; Got recursion not available from 10.96.0.10
 ```
 
 &nbsp;
+
 
 Precisamos mudar a página web de cada `Pod` para que possamos verificar se estamos acessando o `Pod` correto, para isso, vamos utilizar o comando:
 
@@ -309,7 +323,7 @@ echo "Pod 0" > /usr/share/nginx/html/index.html
 Agora vamos acessar o `Pod` novamente, para isso, vamos utilizar o comando:
 
 ```bash
-wget -O- http://<endereço-ip-do-pod>
+curl localhost
 ```
 
 &nbsp;
