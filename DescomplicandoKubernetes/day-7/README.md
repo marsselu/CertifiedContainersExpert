@@ -278,9 +278,6 @@ Agora que já temos o `StatefulSet` e o `Headless Service` criados, podemos aces
 ```bash
 kubectl exec -it nginx-2 -- bash
 ```
-
-&nbsp;
-
 &nbsp;
 
 Uma vez dentro do container `nginx-2`, vamos utilizar o comando `nslookup`. Para isso instale o `dnsutils` para obter o pacote:
@@ -315,23 +312,19 @@ Address: 10.244.2.3
 Precisamos mudar a página web de cada `Pod` para que possamos verificar se estamos acessando o `Pod` correto, para isso, vamos utilizar o comando:
 
 ```bash
+kubectl exec -it nginx-2 -- bash
+```
+
+Crie um conteúdo dentro da raiz do ngix:
+```bash
 echo "Pod 0" > /usr/share/nginx/html/index.html
 ```
 
-&nbsp;
-
-Agora vamos acessar o `Pod` novamente, para isso, vamos utilizar o comando:
-
+Confirme a alteração:
 ```bash
 curl localhost
 ```
-
-&nbsp;
-
-A saída do comando deve ser:
-
 ```bash
-Connecting to <endereço-ip-do-pod>:80 (<endereço-ip-do-pod>:80)
 Pod 0
 ```
 
