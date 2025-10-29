@@ -305,7 +305,7 @@ Address: 10.244.2.3
 ;; Got recursion not available from 10.96.0.10
 ```
 
-O uso do comando `nslookup` se referindo a nome do `Pod`, neste caso o `nginx-0` significa que a comunicação está acontecendo de acordo com o que solicitamos ao configurar o `Headless Service` :D.
+O uso do comando `nslookup` se referindo a nome do `Pod`, neste caso o `nginx-0` significa que a comunicação está acontecendo de acordo com o que solicitamos ao configurar o `Headless Service`, passando o parâmetro `ClusterIP` como `none` :D.
 
 &nbsp;
 
@@ -326,11 +326,10 @@ Confirme a alteração:
 curl localhost
 ```
 ```bash
-Pod 2
+root@nginx-2:/# Pod 2
 ```
 
 &nbsp;
-
 Repita o mesmo processo para os outros `Pods`, basta mudar o número do `Pod` no comando `echo` e depois utilizar o `nslookup` ára consultar os IPs dos outros `Pods`.
 
 &nbsp;
@@ -376,7 +375,7 @@ kubectl delete -f nginx-headless-service.yaml
 Para excluir um `Volume` precisamos utilizar o comando:
 
 ```bash
-kubectl delete pvc www-0
+kubectl delete pvc <o nome do pvc>
 ```
 
 &nbsp;
@@ -396,7 +395,7 @@ Existem quatro tipos principais de Services:
 
 **ClusterIP** (padrão): Expõe o Service em um IP interno no cluster. Este tipo torna o Service acessível apenas dentro do cluster.
 
-**NodePort**: Expõe o Service na mesma porta de cada Node selecionado no cluster usando NAT. Torna o Service acessível de fora do cluster usando <NodeIP>:<NodePort>.
+**NodePort**: Expõe o Service na mesma porta de cada Node selecionado no cluster usando NAT. Torna o Service acessível de fora do cluster usando `<NodeIP:NodePort>`>.
 
 **LoadBalancer**: Cria um balanceador de carga externo no ambiente de nuvem atual (se suportado) e atribui um IP fixo, externo ao cluster, ao Service.
 
