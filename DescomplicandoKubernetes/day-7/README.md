@@ -294,7 +294,6 @@ nslookup nginx-0.nginx #depois, altere o numero 0 para 1 e confirme a saída
 &nbsp;
 
 O resultado deverá ser algo parecido com isso:
-
 ```bash
 root@nginx-2:/# nslookup nginx-0.nginx
 ;; Got recursion not available from 10.96.0.10
@@ -305,6 +304,8 @@ Name:   nginx-0.nginx.default.svc.cluster.local
 Address: 10.244.2.3
 ;; Got recursion not available from 10.96.0.10
 ```
+
+O uso do comando `nslookup` se referindo a nome do `Pod`, neste caso o `nginx-0` significa que a comunicação está acontecendo de acordo com o que solicitamos ao configurar o `Headless Service` :D.
 
 &nbsp;
 
@@ -317,7 +318,7 @@ kubectl exec -it nginx-2 -- bash
 
 Crie um conteúdo dentro da raiz do ngix:
 ```bash
-echo "Pod 0" > /usr/share/nginx/html/index.html
+echo "Pod 2" > /usr/share/nginx/html/index.html
 ```
 
 Confirme a alteração:
@@ -325,12 +326,12 @@ Confirme a alteração:
 curl localhost
 ```
 ```bash
-Pod 0
+Pod 2
 ```
 
 &nbsp;
 
-Caso queira, você pode fazer o mesmo para os outros `Pods`, basta mudar o número do `Pod` no comando `nslookup` e no comando `echo`.
+Repita o mesmo processo para os outros `Pods`, basta mudar o número do `Pod` no comando `echo` e depois utilizar o `nslookup` ára consultar os IPs dos outros `Pods`.
 
 &nbsp;
 
