@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service # Tipo do objeto, no caso, um Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+    env: dev
+spec:
+  selector: # Seleciona os Pods que serão expostos pelo Service
+    app: nginx # Neste caso, os Pods com o label app=nginx
+  ports:
+    - protocol: TCP
+      port: 80 # Porta do Service
+      targetPort: 80 # Porta dos Pods
+  type: ClusterIP # Tipo do Service
