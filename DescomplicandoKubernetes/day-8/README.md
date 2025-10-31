@@ -391,13 +391,16 @@ Aplique o deploy e verifique seu o pod está `Running`:
 ```bash
 kubectl apply -f pod-imagem-privada.yaml
 ```
+A saída será algo semelhante a:
 ```bash
 pod/meu-pod created
 ```
 
+Verifique a criação do seu pod:
 ```bash
 kubectl get pod meu-pod
 ```
+A saída será algo semelhante a:
 ```bash
 NAME      READY   STATUS    RESTARTS   AGE
 meu-pod   1/1     Running   0          10h
