@@ -370,6 +370,8 @@ Agora o Kubernetes já tem acesso ao Docker Hub, e você pode usar o Kubernetes 
 
 Um coisa importante, sempre quando você precisar criar um Pod que precise utilizar uma imagem Docker privada do Docker Hub, você precisa configurar o Pod para usar o Secret que armazena as credenciais do Docker Hub, e para isso você precisa usar o campo `spec.imagePullSecrets` no arquivo YAML do Pod.
 
+Crie um arquivo `pod-imagem-privada.yaml` com o conteudo abaixo:
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -383,10 +385,23 @@ spec:
   - name: docker-hub-secret # nome do Secret
 ```
 
-&nbsp;
-
 Perceba a utilização do campo `spec.imagePullSecrets` no arquivo YAML do Pod, e o campo `name` que define o nome do Secret que armazena as credenciais do Docker Hub. É somente isso que você precisa fazer para que o Kubernetes possa acessar o Docker Hub.
 
+Aplique o deploy e verifique seu o pod está `Running`:
+```bash
+kubectl apply -f pod-imagem-privada.yaml
+```
+```bash
+pod/meu-pod created
+```
+
+```bash
+kubectl get pod meu-pod
+```
+```bash
+NAME      READY   STATUS    RESTARTS   AGE
+meu-pod   1/1     Running   0          10h
+```
 
 &nbsp;
 
