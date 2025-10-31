@@ -437,7 +437,7 @@ Entendido? Espero que sim, porque eu não vou entrar em mais detalhes sobre isso
 
 Agora vamos voltar o foco na criação do Secret TLS.
 
-Com o certificado TLS e a chave privada criados, vamos criar o nosso Secret, é somente para mudar um pouco, vamos criar o Secret usando o comando `kubectl apply`:
+Com o certificado TLS e a chave privada criados, vamos criar o nosso Secret, e somente para mudar um pouco, vamos criar o Secret usando o comando `kubectl create`:
 
 ```bash
 kubectl create secret tls meu-servico-web-tls-secret --cert=certificado.crt --key=chave-privada.key
