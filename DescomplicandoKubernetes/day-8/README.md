@@ -5,8 +5,6 @@
 
 ### Conteúdo do Day-8
 
-- [Por que ?](#por-que-)
-
 
 &nbsp;
 
