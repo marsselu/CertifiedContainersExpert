@@ -1,0 +1,19 @@
+import sounddevice as sd
+import numpy as np
+from faster_whisper import WhisperModel
+
+model = WhisperModel("small", device="cpu")
+
+def callback(indata, frames, time, status):
+    if status:
+        print(status)
+    audio = np.frombuffer(indata, dtype=np.float32)
+    segments, info = model.transcribe(audio)
+    for segment in segments:
+        print(segment.text)
+
+with sd.InputStream(channels=1, samplerate=16000, callback=callback):
+    print("🎙️ Transcrevendo em tempo real... (Ctrl+C para parar)")
+    while True:
+        pass
+

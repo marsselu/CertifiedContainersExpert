@@ -1,0 +1,45 @@
+import sounddevice as sd
+import numpy as np
+from faster_whisper import WhisperModel
+import datetime
+
+# ================= CONFIGURAÇÃO =================
+MODEL_SIZE = "tiny"            # Modelo Whisper: tiny, base, small, medium, large
+#SAMPLE_RATE = 44100             # Taxa de amostragem
+SAMPLE_RATE = 48000
+CHANNELS = 2                    # Stereo
+AUDIO_DEVICE = 4               # Dispositivo PulseAudio 'pulse' (captura áudio do sistema)
+OUTPUT_FILE = "transcricao_aula.txt"  # Arquivo de saída
+# =================================================
+
+# Carrega modelo
+model = WhisperModel(MODEL_SIZE, device="cpu")  # ou "cuda" se tiver GPU
+
+print("🎙️ Transcrição iniciada... pressione Ctrl+C para parar.")
+
+def callback(indata, frames, time, status):
+    if status:
+        print(f"[!] {status}")
+    # Flatten audio e normaliza
+    audio = indata.flatten()
+    # Transcreve
+    segments, info = model.transcribe(audio, beam_size=5)
+    with open(OUTPUT_FILE, "a", encoding="utf-8") as f:
+        for segment in segments:
+            # Adiciona timestamp
+            start_time = str(datetime.timedelta(seconds=int(segment.start)))
+            end_time = str(datetime.timedelta(seconds=int(segment.end)))
+            line = f"[{start_time} --> {end_time}] {segment.text}\n"
+            print(line, end="")
+            f.write(line)
+
+# Inicializa captura
+with sd.InputStream(samplerate=SAMPLE_RATE,
+                    device=AUDIO_DEVICE,
+                    channels=CHANNELS,
+                    dtype='float32',
+                    latency='high',
+                    callback=callback):
+    while True:
+        pass
+

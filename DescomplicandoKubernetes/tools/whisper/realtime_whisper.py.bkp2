@@ -1,0 +1,44 @@
+import sounddevice as sd
+import numpy as np
+from faster_whisper import WhisperModel
+
+# === CONFIGURAÇÃO ===
+# Modelo: escolha entre tiny, base, small, medium, large
+MODEL_SIZE = "small"
+
+# Dispositivo de áudio: normalmente 'Monitor of ...' do PulseAudio
+# Se não souber o número, execute: sd.query_devices()
+AUDIO_DEVICE = 12  # None = usar dispositivo padrão
+
+# Taxa de amostragem (Hz)
+SAMPLE_RATE = 44100  
+
+# Número de canais (1 = mono, 2 = stereo)
+CHANNELS = 2
+
+# =====================
+
+# Carrega o modelo Whisper
+model = WhisperModel(MODEL_SIZE, device="cpu")  # ou device="cuda" se GPU
+
+print("🎙️ Iniciando transcrição em tempo real... pressione Ctrl+C para sair.")
+
+def callback(indata, frames, time, status):
+    if status:
+        print(f"[!] {status}")
+    audio = indata.flatten()
+    segments, info = model.transcribe(audio, beam_size=5)
+    for segment in segments:
+       # print(segment.text)
+       with open("transcricao.txt", "a") as f:
+           f.write(segment.text + "\n")
+
+# Inicia captura de áudio
+with sd.InputStream(samplerate=SAMPLE_RATE,
+                    device=AUDIO_DEVICE,
+                    channels=CHANNELS,
+                    dtype='float32',
+                    callback=callback):
+    while True:
+        pass
+
