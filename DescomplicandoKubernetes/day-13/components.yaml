@@ -199,5 +199,4 @@ spec:
   service:
     name: metrics-server
     namespace: kube-system
-  version: v1beta1
   versionPriority: 100
