@@ -16,10 +16,10 @@ spec:
       name: cpu                # Nome da métrica (CPU neste caso)
       target:
         type: Utilization      # Tipo de alvo (utilização)
-        averageUtilization: 20 # Valor alvo (50% de utilização)
+        averageUtilization: 50 # Valor alvo (50% de utilização)
   - type: Resource             # Tipo de métrica (recurso do sistema)
     resource:
       name: memory                   # Nome da métrica (memória neste caso)
       target:
         type: Utilization            # Tipo de alvo (utilização)
-        averageUtilization: 60       # Valor alvo (60% de utilização)
+        averageUtilization: 50       # Valor alvo (60% de utilização)

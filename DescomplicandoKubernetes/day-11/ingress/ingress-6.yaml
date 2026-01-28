@@ -1,10 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: giropops-senhas-canary
+  name: giropops-senhas
   annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "200" # limita a 2 requisicoes por segundo
     nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: letsencrypt-production # referencia o ClusterIssuer criado anteriormente
     #---
     #nginx.ingress.kubernetes.io/auth-type: basic # habilita autenticacao basica
     #nginx.ingress.kubernetes.io/auth-secret: giropops-senhas-basic-auth # nome do secret que contem usuario e senha
@@ -15,9 +15,7 @@ metadata:
     #---
     #nginx.ingress.kubernetes.io/upstream-hash-by: "$request_uri" # define a chave para afinidade (nesse caso, a URI da requisicao)
     #---
-    nginx.ingress.kubernetes.io/canary: "true" # habilita canary
-    nginx.ingress.kubernetes.io/canary-weight: "90" # define o peso do canary (90% do trafego neste exemplo)
-    #---  
+    cert-manager.io/cluster-issuer: letsencrypt-production # referencia o ClusterIssuer criado anteriormente
 spec:
   ingressClassName: nginx
   tls:
@@ -32,6 +30,6 @@ spec:
         pathType: Prefix
         backend:
           service: 
-            name: nginx
+            name: giropops-senhas
             port:
-              number: 80
+              number: 5000
