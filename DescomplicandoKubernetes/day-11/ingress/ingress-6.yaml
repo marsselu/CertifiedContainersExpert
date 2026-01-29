@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: giropops-senhas
   annotations:
-    nginx.ingress.kubernetes.io/limit-rps: "200" # limita a 2 requisicoes por segundo
+    nginx.ingress.kubernetes.io/limit-rps: "1100" # limita a 2 requisicoes por segundo
     nginx.ingress.kubernetes.io/rewrite-target: /
     #---
     #nginx.ingress.kubernetes.io/auth-type: basic # habilita autenticacao basica

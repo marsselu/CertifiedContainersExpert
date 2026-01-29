@@ -23,3 +23,16 @@ spec:
       target:
         type: Utilization            # Tipo de alvo (utilização)
         averageUtilization: 50       # Valor alvo (60% de utilização)
+  behavior: # Configurações de comportamento do HPA
+    scaleUp:
+      stabilizationWindowSeconds: 5 # Janela de estabilização para scale-up (em segundos)
+      policies: # Políticas de escalonamento
+      - type: Percent
+        value: 100 # Percentual máximo de aumento de réplicas
+        periodSeconds: 10 # Período para aplicar a política (em segundos)
+    scaleDown: # Configurações para scale-down
+      stabilizationWindowSeconds: 60 # Janela de estabilização para scale-down (em segundos)
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 100
