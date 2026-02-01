@@ -1,0 +1,16 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-label-namespace
+spec:
+  rules:
+  - name: add-label-ns # Regra para adicionar label ao namespace
+    match:
+      resources:
+        kinds:
+        - Namespace
+    mutate:
+      patchStrategicMerge: # Estrategia de merge para adicionar a label
+        metadata:
+          labels:
+            Marcelo: "Devops_Engineer"

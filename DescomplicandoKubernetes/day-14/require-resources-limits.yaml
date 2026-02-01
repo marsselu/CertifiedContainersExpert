@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-cpu-memory-limits
+spec:
+  validationFailureAction: Enforce
+  rules:
+  - name: validate-limits
+    match:
+      resources:
+        kinds:
+        - Pod
+    exclude: # Exclui o namespace giropops da validação
+      resources:
+        namespaces:
+        - giropops
+    validate:
+      message: "CPU and memory limits are required"
+      pattern:
+        spec:
+          containers:
+          - name: "*" # Aplica a todos os containers
+            resources:
+              limits:
+                memory: "?*" # Requer limite de memória
+                cpu: "?*" # Requer limite de CPU
