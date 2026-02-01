@@ -1,0 +1,26 @@
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig #
+metadata:
+  name: eks-cluster
+  region: us-east-1
+  version: "1.29" # Versão do Kubernetes para o EKS
+
+managedNodeGroups: # Configuração do grupo de nós gerenciados
+  - name: eks-cluster-nodegroup
+    instanceType: t3.medium
+    minSize: 1
+    maxSize: 3
+    desiredCapacity: 2
+    #volumeSize: 20 # Tamanho do volume em GB
+    #ssh:
+    #  allow: true # Opcional: para acessar os nós via SSH
+    labels: # Adiciona rótulos aos nós
+      role: worker
+    tags: #
+      nodegroup-role: worker
+
+# Opcional: habilitar logs do CloudWatch
+#cloudWatch:
+ # clusterLogging:
+  #  enableTypes: ["*"]
