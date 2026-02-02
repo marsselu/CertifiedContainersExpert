@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app-to-redis
+  namespace: giropops
+spec:
+  podSelector:
+    matchLabels: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector: 
+        matchLabels:
+          kubernetes.io/metadata.name: giropops
+      podSelector: # condicao a ser atendida SOMADA ao nameSelector (ou seja, operador AND ja que nao tem o - no inicio da linha
+        matchLabels:
+          app: redis
